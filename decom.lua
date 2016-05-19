@@ -7,7 +7,7 @@ local class = require '3rdparty.middleclass'
 
 
 -----------------------------------------------------
--- A Ring Buffer Class used to sotre historical values
+-- A Ring Buffer Class used to store historical values
 --
 
 local RingBuffer = class('RingBuffer')
