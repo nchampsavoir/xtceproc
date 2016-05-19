@@ -1,0 +1,110 @@
+<xtce:SpaceSystem xmlns:xtce="http://www.omg.org/space/xtce" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="CCSDS" xsi:schemaLocation="http://www.omg.org/space/xtce SpaceSystemV1.1.xsd">
+    <xtce:TelemetryMetaData>
+        <xtce:ParameterTypeSet>
+            <xtce:IntegerParameterType name="CCSDSSCIDType">
+                <xtce:UnitSet/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSVCIDType">
+                <xtce:UnitSet/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSVersionType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="3"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSTypeType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="1"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSSecHType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="1"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSAPIDType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="11"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSGroupFlagsType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="2"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSSourceSequenceCountType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="14"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="CCSDSPacketLengthType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="16"/>
+            </xtce:IntegerParameterType>
+        </xtce:ParameterTypeSet>
+        <xtce:ParameterSet>
+            <xtce:Parameter parameterTypeRef="CCSDSSCIDType" name="CCSDSSCID">
+                <xtce:ParameterProperties dataSource="local"/>
+            </xtce:Parameter>
+            <xtce:Parameter parameterTypeRef="CCSDSVCIDType" name="CCSDSVCID">
+                <xtce:ParameterProperties dataSource="local"/>
+            </xtce:Parameter>
+            <xtce:Parameter parameterTypeRef="CCSDSVersionType" name="CCSDSVersion" shortDescription="Version Number of CCSDS Packet Header"/>
+            <xtce:Parameter parameterTypeRef="CCSDSTypeType" name="CCSDSType" shortDescription="Packet Type of CCSDS Packet Header"/>
+            <xtce:Parameter parameterTypeRef="CCSDSSecHType" name="CCSDSSecH" shortDescription="Data Field Header Flag of CCSDS Packet Header"/>
+            <xtce:Parameter parameterTypeRef="CCSDSAPIDType" name="CCSDSAPID" shortDescription="Application Process ID of CCSDS Packet Header"/>
+            <xtce:Parameter parameterTypeRef="CCSDSGroupFlagsType" name="CCSDSGroupFlags" shortDescription="Grouping Flags of CCSDS Packet Header"/>
+            <xtce:Parameter parameterTypeRef="CCSDSSourceSequenceCountType" name="CCSDSSourceSequenceCount" shortDescription="Source Sequence Count of CCSDS Packet Header"/>
+            <xtce:Parameter parameterTypeRef="CCSDSPacketLengthType" name="CCSDSPacketLength" shortDescription="Packet Length of CCSDS Packet Header"/>
+        </xtce:ParameterSet>
+        <xtce:ContainerSet>
+            <xtce:SequenceContainer name="CCSDSPacket">
+                <xtce:LongDescription>Super-container for telemetry and command packets</xtce:LongDescription>
+                <xtce:EntryList>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSVersion"/>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSType"/>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSSecH"/>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSAPID"/>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSGroupFlags"/>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSSourceSequenceCount"/>
+                    <xtce:ParameterRefEntry parameterRef="CCSDSPacketLength"/>
+                </xtce:EntryList>
+            </xtce:SequenceContainer>
+            <xtce:SequenceContainer abstract="true" name="CCSDSTelemetryPacket">
+                <xtce:LongDescription>Super-container for all telemetry packets</xtce:LongDescription>
+                <xtce:EntryList/>
+                <xtce:BaseContainer containerRef="CCSDSPacket">
+                    <xtce:RestrictionCriteria>
+                        <xtce:ComparisonList>
+                            <xtce:Comparison value="0" parameterRef="CCSDSVersion"/>
+                            <xtce:Comparison value="0" parameterRef="CCSDSType"/>
+                        </xtce:ComparisonList>
+                    </xtce:RestrictionCriteria>
+                </xtce:BaseContainer>
+            </xtce:SequenceContainer>
+            <xtce:SequenceContainer name="MyTelemetryPacket">
+                <xtce:LongDescription>Telemetry packet of APID 1</xtce:LongDescription>
+                <xtce:EntryList/>
+                <xtce:BaseContainer containerRef="CCSDSTelemetryPacket">
+                    <xtce:RestrictionCriteria>
+                        <xtce:ComparisonList>                            
+                            <xtce:Comparison value="1" parameterRef="CCSDSAPID"/>
+                        </xtce:ComparisonList>
+                    </xtce:RestrictionCriteria>
+                </xtce:BaseContainer>
+            </xtce:SequenceContainer>
+        </xtce:ContainerSet>
+    </xtce:TelemetryMetaData>
+    <xtce:CommandMetaData>
+        <xtce:MetaCommandSet>
+            <xtce:MetaCommand name="CCSDSCommand">
+                <xtce:LongDescription>Super-command for all CCSDS missions, includes the super-cmd-container for all cmd packets</xtce:LongDescription>
+                <xtce:CommandContainer name="CCSDSCommandPacket">
+                    <xtce:EntryList/>
+                    <xtce:BaseContainer containerRef="CCSDSPacket">
+                        <xtce:RestrictionCriteria>
+                            <xtce:ComparisonList>
+                                <xtce:Comparison value="0" parameterRef="CCSDSVersion"/>
+                                <xtce:Comparison value="1" parameterRef="CCSDSType"/>
+                            </xtce:ComparisonList>
+                        </xtce:RestrictionCriteria>
+                    </xtce:BaseContainer>
+                </xtce:CommandContainer>
+            </xtce:MetaCommand>
+        </xtce:MetaCommandSet>
+    </xtce:CommandMetaData>
+</xtce:SpaceSystem>
