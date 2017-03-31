@@ -11,19 +11,17 @@ This is an attempt at writing a set of tools for telemetry and telecommand proce
 XTCEproc works as follows : 
 
  1. It takes an XTCE file as input and generates a docummuation model in LuaJIT. 
- 2. It makes use of this decommutation to extract parameter values from a stream of telemtry packets. 
+ 2. It makes use of this decommutation model to extract parameter values from a stream of telemetry packets. 
 
-The fact the decommutation model is JIT-compiled with LuaJIT makes it very fast: the decommutation library can process 50Mb of raw telemetry in less than 15 seconds on my MacBook Air. 
+Being JIT-compiled, the generated decommutation model is very fast: the decommutation library can process 50Mb of raw telemetry in less than 15 seconds on my 2013 MacBook Air. 
 
 Content
 -------
 
 This repo consists of :
 
-  for LuaJIT in `decom.lua` (with various included dependencies) and a set of scripts:
-
- - **ssm**: a Space System Model represnetation in Lua. Currently, it can parse an XTCE File, load it as a set of objects in memoty, and use that memory model to generate the lua source code that corresponds to the Telemtry-related part of the XTCE-File.
- - **decom**: a decommutation library with a pull-stye API. 
+ - **ssm**: a Space System Model representation in Lua. Currently, it can parse an XTCE File, load it as a set of objects in memory, and use that memory model to generate the lua source code that corresponds to the Telemetry-related part of the XTCE-File.
+ - **decom**: a decommutation library with a pull-style API. 
  - **xtceproc**: A command line interface to the decom library and the SSM Model. 
 
 How stable is it?
